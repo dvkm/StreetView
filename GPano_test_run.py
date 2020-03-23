@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import glob
 import json
-import  sqlite3
+import sqlite3
 
 gpano = GPano.GPano()
 gsv = GPano.GSV_depthmap()
@@ -16,7 +16,8 @@ def test_getPanoJPGfrmArea():
     print('started! ')
 
     # csv file needs POINT_X,POINT_Y.
-    pts = gpano.readRoadSeedsPts_csv(r'K:\OneDrive_NJIT\OneDrive - NJIT\Research\House\maryland\Maryland_Road_Centerlines__Comprehensive\Maryland_Road_Centerlines_pts.csv')
+    pts = gpano.readRoadSeedsPts_csv(
+        r'K:\OneDrive_NJIT\OneDrive - NJIT\Research\House\maryland\Maryland_Road_Centerlines__Comprehensive\Maryland_Road_Centerlines_pts.csv')
     # coords = GPano.GPano.readCoords_csv(GPano.GPano(),
     #                                     r'O:\OneDrive_NJIT\OneDrive - NJIT\Research\sidewalk\Essex_test\polygon_coords.csv')
     coords = gpano.readCoords_csv(r'K:\OneDrive_NJIT\OneDrive - NJIT\Research\House\maryland\maryland_bou.csv')

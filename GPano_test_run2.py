@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import glob
 import json
-import  sqlite3
+import sqlite3
 
 gpano = GPano.GPano()
 gsv = GPano.GSV_depthmap()
@@ -23,13 +23,12 @@ def test_getPanoJPGfrmArea():
     random.shuffle(pts)
 
     # self.gpano.getPanoJPGfrmArea(pts, saved_path, coords)
-    gpano.getPanoJPGfrmArea_mp('json_only', pts,  saved_path, coords, Process_cnt=1)
-
+    gpano.getPanoJPGfrmArea_mp('json_only', pts, saved_path, coords, Process_cnt=1)
 
     #### Test for getPanoIDfrmLonlat()
+
+
 def test_getPanosfrmLonlats_mp():
-
-
     list_lonlat = pd.read_csv(r'K:\OneDrive_NJIT\OneDrive - NJIT\Research\House\maryland\footprints\footprints.csv')
     print(sys.getfilesystemencoding())
     print(sys.getdefaultencoding())

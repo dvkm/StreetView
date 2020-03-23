@@ -3,7 +3,6 @@ Designed by Huan Ning, gladcolor@gmail.com, 2019.09.04
 
 """
 
-
 # Python built-ins
 import os
 import time
@@ -44,14 +43,12 @@ import requests
 import urllib.request
 import urllib
 
-
 #
 WINDOWS_SIZE = '100, 100'
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--windows-size=%s" % WINDOWS_SIZE)
 Loading_time = 5
-
 
 web_driver_path = r'chromedriver'
 driver = webdriver.Chrome(executable_path=web_driver_path, chrome_options=chrome_options)
@@ -66,7 +63,7 @@ Please implement all the methods. I have written some tips (not code) in the met
 """
 
 
-class GPano():
+class GPano:
     # Obtain a panomaro image from Google Street View Map
     def getPanoZoom0frmID(self, panoId, saved_path):
         url = r'http://maps.google.com/cbk?output=tile&zoom=0&x=0&y=0&panoid=' + panoId
@@ -79,7 +76,7 @@ class GPano():
         url_part1 = r'!3m6!1e1!3m4!1s'
         url_part2 = r'!2e0!7i16384!8i8192'
         heading = str(heading)
-        url = f"https://www.google.com/maps/@{round(lat, 7)},{round(lon, 7)},3a,{fov}y,{heading}h,{tilt}t/data={url_part1}{url_part2}"
+        url = f"https://www.google.com/maps/@{round(lat, 7)},{round(lon,7)},3a,{fov}y,{heading}h,{tilt}t/data={url_part1}{url_part2}"
         return url
 
     def getGSV_url_frm_panoId(self, panoId, heading=0, tilt=90, fov=90):
@@ -119,7 +116,7 @@ class GPano():
         x = cos(radLatA) * sin(radLatB) - sin(radLatA) * cos(radLatB) * cos(dLon)
         brng = degrees(atan2(y, x))
         if brng < 0:
-            brng = (brng + 360) #% 360
+            brng = (brng + 360)  # % 360
         return brng
 
     def getPanoJPGsfrmLonlats(self, list_lonlat, saved_path, prefix="", suffix="", zoom=4):
@@ -204,9 +201,7 @@ class GPano():
             try:
                 num = random.randint(0, 3)
                 url = 'https://geo' + str(
-                    num) + '.ggpht.com/cbk?cb_client=maps_sv.tactile&authuser=0&hl=zh-CN&gl=us&panoid=' + adcode[
-                          0] + '&output=tile&x=' + str(
-                    0) + '&y=' + str(x) + '&zoom=4&nbt&fover=2'
+                    num) + '.ggpht.com/cbk?cb_client=maps_sv.tactile&authuser=0&hl=zh-CN&gl=us&panoid=' + adcode[0] + '&output=tile&x=' + str(0) + '&y=' + str(x) + '&zoom=4&nbt&fover=2'
                 file = urllib.request.urlopen(url)
                 image = Image.open(file)
             except OSError:
@@ -435,7 +430,8 @@ class GPano():
         fov = 90
         url_part1 = r'!3m6!1e1!3m4!1s'
         url_part2 = r'!2e0!7i16384!8i8192'
-        url = f"https://www.google.com/maps/@{round(lat, 7)},{round(lon, 7)},3a,{fov}y,{heading}h,{tilt}t/data={url_part1}{url_part2}"
+        url = f"https://www.google.com/maps/@{round(lat, 7)},{round(lon,
+                                                                    7)},3a,{fov}y,{heading}h,{tilt}t/data={url_part1}{url_part2}"
 
         # print(url)
         try:
@@ -480,7 +476,7 @@ class GPano():
         if data == 0:
             return 0, 0, 0
         if 'Location' in data:
-            return (data['Location']['panoId'], data['Location']['lng'], data['Location']['lat'])
+            return data['Location']['panoId'], data['Location']['lng'], data['Location']['lat']
         else:
             return 0, 0, 0
 
@@ -521,7 +517,7 @@ class GPano():
             yaw = yaw + 360
 
         url1 = f"https://geo{server_num}.ggpht.com/cbk?cb_client=maps_sv.tactile&authuser=0&hl=en&gl=us&output=thumbnail&thumb=2&w={width}" \
-               f"&h={height}&pitch={pitch}&ll={lat}%2C{lon}&yaw={yaw}&thumbfov={fov}"
+            f"&h={height}&pitch={pitch}&ll={lat}%2C{lon}&yaw={yaw}&thumbfov={fov}"
 
         suffix = str(suffix)
         prefix = str(prefix)
@@ -567,7 +563,7 @@ class GPano():
             yaw = yaw + 360
 
         url1 = f"https://geo{server_num}.ggpht.com/cbk?cb_client=maps_sv.tactile&authuser=0&hl=en&gl=us&output=thumbnail&thumb=2&w={width}" \
-               f"&h={height}&pitch={pitch}&panoid={panoId}&yaw={yaw}&thumbfov=90"
+            f"&h={height}&pitch={pitch}&panoid={panoId}&yaw={yaw}&thumbfov=90"
 
         suffix = str(suffix)
         prefix = str(prefix)
@@ -727,7 +723,7 @@ class GPano():
             print("Error in getImageclipsfrmJson():", e)
 
     def go_along_road_forward(self, lon, lat, saved_path, yaw_list=0, pitch_list=0, steps=99999, polygon=None, zoom=5):
-        '''
+        """
 
         :param lon: lon of a seed point.
         :param lat: lat of a seed point.
@@ -738,7 +734,7 @@ class GPano():
         :param polygon:
         :param zoom:
         :return:
-        '''
+        """
         lon = float(lon)
         lat = float(lat)
         if not isinstance(yaw_list, list):
@@ -834,7 +830,7 @@ class GPano():
 
                     print('Processing: ', panoId)
 
-                    if yaw_list[0] == None:
+                    if yaw_list[0] is None:
                         # print('yaw_list : None', yaw_list)
                         self.getPanoJPGfrmPanoId(panoId, saved_path=saved_path, zoom=zoom)
                     elif yaw_list[0] == 'json_only':
@@ -1131,7 +1127,8 @@ class GPano():
         pool.close()
         pool.join()
 
-    def shootLonlat(self, ori_lon, ori_lat, saved_path='', polygon=None, views=1, prefix='', suffix='', width=1024, height=768, pitch=0, fov=90):
+    def shootLonlat(self, ori_lon, ori_lat, saved_path='', polygon=None, views=1, prefix='', suffix='', width=1024,
+                    height=768, pitch=0, fov=90):
 
         # panoid, lon, lat = self.getPanoIDfrmLonlat(ori_lon, ori_lat)
         try:
@@ -1154,7 +1151,7 @@ class GPano():
         lat = float(lat)
 
         # print('lon/lat in panorama:', lon, lat)
-        lon_diff, lat_diff = ori_lon - polygon.centroid.x,  ori_lat - polygon.centroid.y
+        lon_diff, lat_diff = ori_lon - polygon.centroid.x, ori_lat - polygon.centroid.y
         heading = self.getDegreeOfTwoLonlat(lat, lon, polygon.centroid.y, polygon.centroid.x)
 
         if polygon is not None:
@@ -1167,7 +1164,7 @@ class GPano():
         # print(idx, 'Heading angle between tree and panorama:', heading)
         # f.writelines(f"{ID},{ACCTID}{ori_lon},{ori_lat},{lon},{lat},{heading}" + '\n')
         image, jpg_name = self.getImagefrmAngle(lon, lat, saved_path=saved_path, prefix=str(prefix) + panoid,
-                              pitch=pitch, yaw=heading, fov=fov)
+                                                pitch=pitch, yaw=heading, fov=fov)
 
         if views == 1:
             return image, jpg_name
@@ -1194,7 +1191,7 @@ class GPano():
                     lat = float(lat)
                     heading = self.getDegreeOfTwoLonlat(lat, lon, ori_lat, ori_lon)
                     image, jpg_name = self.getImagefrmAngle(lon, lat, saved_path=saved_path, prefix=prefix,
-                                          pitch=pitch, yaw=heading)
+                                                            pitch=pitch, yaw=heading)
                     images.append(image)
                     jpg_names.append(jpg_name)
                 except Exception as e:
@@ -1217,7 +1214,6 @@ class GPano():
 
         min_diff = heading - (min_angle - 360)
         max_diff = (max_angle - 360) - heading
-
 
         fov = (int(max(min_diff, max_diff))) * 2
         print(f"{min_angle - 360} - {heading} - {max_angle - 360}")
@@ -1256,7 +1252,7 @@ class GPano():
                     speed_pt_hour = int((ini_len - len(ori_lonlats)) / (time.time() - start_time + 0.001) * 3600)
                     print("Process speed: {} points / hour by all processes.".format(speed_pt_hour))
                     print("Processed {} / {},  {:.2%}, {:.2f} hours left.".format(ini_len - len(ori_lonlats), ini_len, (
-                                ini_len - len(ori_lonlats)) / ini_len, (len(ori_lonlats) / speed_pt_hour)))
+                            ini_len - len(ori_lonlats)) / ini_len, (len(ori_lonlats) / speed_pt_hour)))
 
             except Exception as e:
                 print("Error in shootLonlats():", e, ori_lon, ori_lat, prefix)
@@ -1336,10 +1332,10 @@ class GPano():
         while len(list_lonlat) > 0:
             try:
                 # print(list_lonlat.pop(0))
-                lon, lat, id, prefix, road_compassA = list_lonlat.pop(0)
-                prefix = str(id)
+                lon, lat, idx, prefix, road_compassA = list_lonlat.pop(0)
+                prefix = str(idx)
 
-                print('Current row :', id)
+                print('Current row :', idx)
                 self.getImage8DirectionfrmLonlat(lon, lat, saved_path, prefix, suffix, width, height, pitch,
                                                  road_compassA)
                 current_len = len(list_lonlat)
@@ -1349,7 +1345,7 @@ class GPano():
                         "Prcessed {} / {} items. Processing speed: {} points / hour.".format(Cnt, origin_len, int(
                             Cnt / (time.time() - start_time + 0.001) * 3600)))
             except Exception as e:
-                print("Error in getImage4DirectionfrmLonlats(): ", e, id)
+                print("Error in getImage4DirectionfrmLonlats(): ", e, idx)
                 current_len = len(list_lonlat)
                 continue
 
@@ -1584,8 +1580,6 @@ class GPano():
         return new_img
 
 
-
-
 class GSV_depthmap(object):
 
     # def getPanoIdDepthmapfrmLonlat(self, lon, lat, dm=1, saved_path='', prefix='', suffix=''):
@@ -1674,13 +1668,13 @@ class GSV_depthmap(object):
         except Exception as e:
             print("Error in getJsonDepthmapsfrmLonlats_mp():", str(e))
 
-    def lonlat_to_proj(self, lon, lat, out_epsg=6565,  in_epsg=4326):
+    def lonlat_to_proj(self, lon, lat, out_epsg=6565, in_epsg=4326):
         # DVRPC 6564 meter   # NJ: 2824
         # return transform(Proj(init='epsg:4326'), Proj(init='epsg:3857'), lon, lat)
-        return transform(Proj('epsg:'+str(in_epsg)), Proj('epsg:'+str(out_epsg)), lat, lon)
+        return transform(Proj('epsg:' + str(in_epsg)), Proj('epsg:' + str(out_epsg)), lat, lon)
 
-    def proj_to_lonlat(self, X, Y, out_epsg=4326,  in_epsg=2824):
-        return transform(Proj(init='epsg:'+str(in_epsg)), Proj(init='epsg:'+str(out_epsg)), X, Y)
+    def proj_to_lonlat(self, X, Y, out_epsg=4326, in_epsg=2824):
+        return transform(Proj(init='epsg:' + str(in_epsg)), Proj(init='epsg:' + str(out_epsg)), X, Y)
 
     def parse(self, b64_string):
         # fix the 'inccorrect padding' error. The length of the string needs to be divisible by 4.
@@ -1881,7 +1875,7 @@ class GSV_depthmap(object):
             print("dempth_image.shape: ", dempth_image.shape, dm_h, dm_w)
 
             grid_col = np.linspace(-pi, pi, dm_w)
-            grid_row = np.linspace(pi , 0, dm_h)
+            grid_row = np.linspace(pi, 0, dm_h)
             # gridxx = np.arange(512)
             # gridyy = np.arange(256)
             # gridxx, gridyy = np.meshgrid(grid_col, grid_row)
@@ -1917,15 +1911,15 @@ class GSV_depthmap(object):
                 #     print('ray (degree):', ray)
 
                 theta1 = ray[1]
-                theta =theta1-math.pi/2.0
+                theta = theta1 - math.pi / 2.0
 
-                phi1 = ray[0] -math.pi
-                phi = phi1- (heading_of_thumb-heading_of_pano)
+                phi1 = ray[0] - math.pi
+                phi = phi1 - (heading_of_thumb - heading_of_pano)
 
-                if phi>math.pi:
-                    phi = phi-math.pi*2.0
-                elif phi<-math.pi:
-                    phi = phi +math.pi*2.0
+                if phi > math.pi:
+                    phi = phi - math.pi * 2.0
+                elif phi < -math.pi:
+                    phi = phi + math.pi * 2.0
 
                 # if phi > pi:
                 #     phi = phi - pi
@@ -1974,10 +1968,9 @@ class GSV_depthmap(object):
                 # pointY = cameraY + distance * cos(theta + pitch_of_pano) * cos(phi + heading_of_pano)
                 # pointZ = cameraH + distance * sin(theta + pitch_of_pano)
 
-
-                pointX =  distance * cos(theta) * sin(phi)
-                pointY =  distance * cos(theta ) * cos(phi )
-                pointZ =  distance * sin(theta )
+                pointX = distance * cos(theta) * sin(phi)
+                pointY = distance * cos(theta) * cos(phi)
+                pointZ = distance * sin(theta)
 
                 # else:
                 #     pointX = 0
@@ -1997,17 +1990,16 @@ class GSV_depthmap(object):
                 #     print('theta, phi, x, y, row, col:', theta, phi, x, y, row, col)
                 # cnt += 1
             # results = np.concatenate((results, np.array(points3D)), axis=1)
-           #transform to 3d coordinates
+            # transform to 3d coordinates
 
             pointsCloud_xyz = points3D[:, :3]
 
-            def RawPointsCloud2Camera3D( pointsCloud, alpha, beta, gamma):
+            def RawPointsCloud2Camera3D(pointsCloud, alpha, beta, gamma):
 
                 pointsCloud = self.rotate_z(-gamma).dot(self.rotate_x(-beta)).dot(self.rotate_z(-alpha)).dot(
                     pointsCloud.T).T
 
                 return pointsCloud
-
 
             # pointsCloud_xyz[:] = self.RawPointsCloud2Camera3D(pointsCloud_xyz,pano_yaw,tilt_pitch,tilt_yaw)
             # pointsCloud_xyz[:] = self.RawPointsCloud2Camera3D(pointsCloud_xyz, pano_yaw, 0, 0)
@@ -2020,12 +2012,10 @@ class GSV_depthmap(object):
         except Exception as e:
             print("Error in getPointCloud():", e)
 
-
     def getPointCloud2(self, theta_phis, heading_of_thumb, pitch_of_thumb, depthmap, cameraLon, cameraLat,
-                       cameraH, heading_of_pano, pitch_of_pano, sub_w = 1024*1, sub_h=768*1, unit_scale=3.280833333):
+                       cameraH, heading_of_pano, pitch_of_pano, sub_w=1024 * 1, sub_h=768 * 1, unit_scale=3.280833333):
         try:
             # print('heading_of_thumb:', math.degrees(heading_of_thumb))
-
 
             # if not isinstance(theta_phis_in_pano, list):
             #     theta_phis_in_thumb = [theta_phis_in_pano]
@@ -2042,7 +2032,6 @@ class GSV_depthmap(object):
             # print('results shape: ', results.shape, results[0])
             # for row in theta_phis_in_thumb:
             #     print("theta_phis_in_thumb (before adding thumb_heading): ", row)
-
 
             # print('results shape: ', results.shape, results[0])
             # results = np.concatenate((results, theta_phis_in_pano), axis=1)
@@ -2084,8 +2073,6 @@ class GSV_depthmap(object):
             grid_col = np.linspace(-pi - 2 * pi, pi + 2 * pi, dm_w * 3)
             grid_row = np.linspace(pi / 2, -pi / 2, dm_h)
 
-
-
             # 二维插值
             # interp = interpolate.interp2d(grid_col, grid_row, dempth_image,
             #                               kind='linear')  # 'cubic' will distord the distance.
@@ -2103,7 +2090,8 @@ class GSV_depthmap(object):
             new_grid_row = np.linspace(max_theta, min_theta, sub_h)
 
             # 二维插值
-            dempth_image_X3 =  np.concatenate((dempth_image, dempth_image, dempth_image,), axis=1) # avoid the boundary issue
+            dempth_image_X3 = np.concatenate((dempth_image, dempth_image, dempth_image,),
+                                             axis=1)  # avoid the boundary issue
             # interp = interpolate.interp2d(grid_col, grid_row, dempth_image,
             #                               kind='linear')  # 'cubic' will distord the distance.
             interp = interpolate.interp2d(grid_col, grid_row, dempth_image_X3,
@@ -2121,10 +2109,11 @@ class GSV_depthmap(object):
             # resolution_theta = (max_theta - min_theta) / sub_h
 
             # if fov_h is alwasy pi/2:
-            resolution_phi = (math.pi/2) / sub_w
+            resolution_phi = (math.pi / 2) / sub_w
             resolution_theta = (max_theta - min_theta) / sub_h
 
-            col_rows = (theta_phis - np.array([min_phi, max_theta])) / np.array([resolution_phi, resolution_theta])  # flip
+            col_rows = (theta_phis - np.array([min_phi, max_theta])) / np.array(
+                [resolution_phi, resolution_theta])  # flip
             # col_rows = theta_phis - np.array([min_phi, max_theta])
             # col_rows = col_rows / np.array([resolution_phi, resolution_theta])
             # rows =  theta_phis[:, 1]
@@ -2155,8 +2144,10 @@ class GSV_depthmap(object):
             # points3D = np.concatenate((points3D, distances), axis=1)
 
             pitch_of_pano = 0
-            pointX = cameraX + distances * np.cos(theta_phis[:, 1] + pitch_of_pano) * np.sin((theta_phis[:, 0] + heading_of_pano))
-            pointY = cameraY + distances * np.cos(theta_phis[:, 1] + pitch_of_pano) * np.cos((theta_phis[:, 0] + heading_of_pano))
+            pointX = cameraX + distances * np.cos(theta_phis[:, 1] + pitch_of_pano) * np.sin(
+                (theta_phis[:, 0] + heading_of_pano))
+            pointY = cameraY + distances * np.cos(theta_phis[:, 1] + pitch_of_pano) * np.cos(
+                (theta_phis[:, 0] + heading_of_pano))
             pointZ = cameraH + distances * np.sin(theta_phis[:, 1] + pitch_of_pano)
 
             points3D = np.stack((pointX, pointY, pointZ, distances), axis=1)
@@ -2165,7 +2156,6 @@ class GSV_depthmap(object):
             return points3D  # ， results
         except Exception as e:
             print("Error in getPointCloud2():", e)
-
 
     def seg_to_pointcloud(self, seg_list, saved_path, fov):
         try:
@@ -2300,29 +2290,29 @@ class GSV_depthmap(object):
         except Exception as e:
             print("Error in seg_to_pointcloud():", e, seg)
 
-    def rotate_x(self,pitch):
-        #picth is degree
-        r_x = np.array([[1.0,0.0,0.0],
-                        [0.0,math.cos(pitch),-1*math.sin(pitch)],
-                        [0.0,math.sin(pitch),math.cos(pitch)]])
+    def rotate_x(self, pitch):
+        # picth is degree
+        r_x = np.array([[1.0, 0.0, 0.0],
+                        [0.0, math.cos(pitch), -1 * math.sin(pitch)],
+                        [0.0, math.sin(pitch), math.cos(pitch)]])
         return r_x
 
-    def rotate_y(self,yaw):
+    def rotate_y(self, yaw):
         #
-        r_y = np.array([[math.cos(yaw),0.0,math.sin(yaw)],
-                        [0.0,1.0,0.0],
-                        [-1*math.sin(yaw),0.0,math.cos(yaw)]])
+        r_y = np.array([[math.cos(yaw), 0.0, math.sin(yaw)],
+                        [0.0, 1.0, 0.0],
+                        [-1 * math.sin(yaw), 0.0, math.cos(yaw)]])
         return r_y
 
-    def rotate_z(self,roll):
+    def rotate_z(self, roll):
         #
-        r_z = np.array([[math.cos(roll),-1*math.sin(roll),0.0],
-                        [math.sin(roll),math.cos(roll),0.0],
-                        [0.0,0.0,1.0]])
+        r_z = np.array([[math.cos(roll), -1 * math.sin(roll), 0.0],
+                        [math.sin(roll), math.cos(roll), 0.0],
+                        [0.0, 0.0, 1.0]])
         return r_z
 
-
-    def castesian_to_shperical(self, theta0, phi0, tilt_pitch, tilt_yaw, fov_h, height, width):  # yaw: set the heading, pitch
+    def castesian_to_shperical(self, theta0, phi0, tilt_pitch, tilt_yaw, fov_h, height,
+                               width):  # yaw: set the heading, pitch
         """
         Convert the row, col to the original spherical coordinates which can be used as the
          coordinates of the depthmap to look up distance.
@@ -2336,11 +2326,12 @@ class GSV_depthmap(object):
         :param width:
         :return:
         """
-        tilt_pitch =0
+        tilt_pitch = 0
         m = self.rotate_y(phi0).dot(self.rotate_x(theta0 - tilt_pitch))
         print("m: ", m)
 
-        print("theta0, phi0, tilt_pitch, tilt_yaw:", math.degrees(theta0), math.degrees(phi0), math.degrees(tilt_pitch), math.degrees(tilt_yaw) )
+        print("theta0, phi0, tilt_pitch, tilt_yaw:", math.degrees(theta0), math.degrees(phi0), math.degrees(tilt_pitch),
+              math.degrees(tilt_yaw))
 
         # height = int(math.ceil(width * np.tan(fov_v / 2) / np.tan(fov_h / 2)))
         width = int(width)
@@ -2371,7 +2362,7 @@ class GSV_depthmap(object):
 
         diag = np.sqrt(v[:, 2] ** 2 + v[:, 0] ** 2)
         theta = np.pi / 2 - np.arctan2(v[:, 1], diag)
-        phi = np.arctan2(v[:, 0], v[:, 2]) + np.pi#+ np.pi
+        phi = np.arctan2(v[:, 0], v[:, 2]) + np.pi  # + np.pi
 
         # theta = np.arctan2(v[:, 1], diag) + theta0
         # phi = np.arctan2(v[:, 0], v[:, 2]) -math.pi
@@ -2385,16 +2376,15 @@ class GSV_depthmap(object):
         print("len of diag, theta, phi", len(diag), len(theta), len(phi))
 
         theta = theta.reshape(height, width)
-        phi =     phi.reshape(height, width)
-
+        phi = phi.reshape(height, width)
 
         result = np.stack((theta, phi), axis=2)
         # print("result in castesian_to_shperical():", math.degrees(result[0][0]), math.degrees(result[0][1]))
 
         return result
 
-
-    def castesian_to_shperical0(self, theta0, phi0, tilt_pitch, tilt_yaw, fov_h, height, width):  # yaw: set the heading, pitch
+    def castesian_to_shperical0(self, theta0, phi0, tilt_pitch, tilt_yaw, fov_h, height,
+                                width):  # yaw: set the heading, pitch
         """
         Convert the row, col to the original spherical coordinates which can be used as the
          coordinates of the depthmap to look up distance.
@@ -2444,7 +2434,7 @@ class GSV_depthmap(object):
         diag = np.sqrt(v[:, 2] ** 2 + v[:, 0] ** 2)
 
         theta = np.arctan2(v[:, 1], diag) + theta0
-        phi = np.arctan2(v[:, 0], v[:, 2]) # + phi0
+        phi = np.arctan2(v[:, 0], v[:, 2])  # + phi0
 
         # plt_x = [math.degrees(x) for x in phi]
         # plt_y =  [math.degrees(x) for x in theta]
@@ -2455,14 +2445,12 @@ class GSV_depthmap(object):
         # print("len of diag, theta, phi", len(diag), len(theta), len(phi))
 
         theta = theta.reshape(height, width)
-        phi =     phi.reshape(height, width)
-
+        phi = phi.reshape(height, width)
 
         result = np.stack((theta, phi), axis=2)
         # print("result in castesian_to_shperical0():", math.degrees(result[0][0][0]), math.degrees(result[1][0][1]))
 
         return result
-
 
     def pointCloud_to_image(self, pointcloud, resolution):
         try:
@@ -2711,7 +2699,6 @@ class GSV_depthmap(object):
                         print("thumb_panoId: ", thumb_panoId)
                         thumb_panoId, pano_lon, pano_lat = GPano.getPanoIDfrmLonlat(GPano(), pano_lon, pano_lat)
 
-
                     # if len(params) > 5:
                     #     print("thumb_panoId:", thumb_panoId)
 
@@ -2733,10 +2720,8 @@ class GSV_depthmap(object):
 
                     # print("dm:", dm)
 
-
                     # print('dm[depthjMap]:', dm['depthMap'])
                     # print('dm[depthjMap] min, max:', min(dm['depthMap']), max(dm['depthMap']))
-
 
                     url = GPano.getGSV_url_frm_lonlat(self, pano_lon, pano_lat, heading=math.degrees(thumb_heading))
                     print("Google street view URL:", url)
@@ -2751,7 +2736,6 @@ class GSV_depthmap(object):
 
                     # print("len of sidewalk_idx:", len(sidewalk_idx))
                     # print("sidewalk_idx:", sidewalk_idx)
-
 
                     if len(sidewalk_idx) > 1:
                         # get spherial coordinates
@@ -2781,9 +2765,9 @@ class GSV_depthmap(object):
                         # print("len of sidewalk_idx:", len(sidewalk_idx))
 
                         sphs = self.castesian_to_shperical0(thumb_theta0, \
-                                                                   thumb_phi0, pano_pitch, \
-                                                                   pano_tilt_yaw, fov_h, h, w)
-                        sidewalk_sph_phi   = sphs[sidewalk_idx[:, 0], sidewalk_idx[:, 1], 1]
+                                                            thumb_phi0, pano_pitch, \
+                                                            pano_tilt_yaw, fov_h, h, w)
+                        sidewalk_sph_phi = sphs[sidewalk_idx[:, 0], sidewalk_idx[:, 1], 1]
                         sidewalk_sph_theta = sphs[sidewalk_idx[:, 0], sidewalk_idx[:, 1], 0]
 
                         # plt_x = [math.degrees(x) for x in sidewalk_sph_phi]
@@ -2796,7 +2780,7 @@ class GSV_depthmap(object):
                         # print('sidewalk_sph[0]:', sidewalk_sph[0])
 
                         pointcloud = self.getPointCloud2(sidewalk_sph, thumb_heading, thumb_theta0, dm,
-                                                        pano_lon, pano_lat, pano_H, pano_heading, pano_pitch)
+                                                         pano_lon, pano_lat, pano_H, pano_heading, pano_pitch)
                         # print("pointcloud: ", pointcloud[:3], len(pointcloud))
                         # saved_path = r'D:\OneDrive_NJIT\OneDrive - NJIT\Research\sidewalk\Essex_test\jpg\segmented_1024_pc'
                         new_file_name = os.path.join(saved_path, basename[:-4] + '_landcover.png')
@@ -2887,7 +2871,7 @@ class GSV_depthmap(object):
                     print("Error in seg_to_landcover2() for loop:", e, seg)
                     continue
             if len(np_images) == 1:
-                np_images =  np_images[0]
+                np_images = np_images[0]
                 coloreds_names = coloreds_names[0]
             return np_images, coloreds_names
 

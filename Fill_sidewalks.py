@@ -629,7 +629,7 @@ def shotExists(jpg_name, folder, threshold=15):
 
         diff = abs(shotDirection_c - shotDirection)
 
-        if diff < threshold and diff > 0:
+        if threshold > diff > 0:
             return True
 
     return False

@@ -2,16 +2,17 @@ from __future__ import print_function
 import cv2
 import numpy as np
 from shapely.geometry import Polygon
+
 # from centerline.geometry import Centerline
 MAX_FEATURES = 500
 GOOD_MATCH_PERCENT = 0.15
 
 import GPano
-#import GPano.GSV_depthmap
-#%%
+# import GPano.GSV_depthmap
+# %%
 
-#%%
-#gpano = GPanorama()
+# %%
+# gpano = GPanorama()
 
 from label_centerlines import get_centerline
 
@@ -57,8 +58,6 @@ def alignImages(im1, im2):
     im1Reg = cv2.warpPerspective(im1, h, (width, height))
 
     return im1Reg, h
-
-
 
 
 if __name__ == '__main__':
@@ -141,11 +140,10 @@ if __name__ == '__main__':
 
     cv2.imshow('MORPH_CLOSE', cv2.imread("temp.png", cv2.IMREAD_UNCHANGED))
 
-    ret,thresh = cv2.threshold(img_cv2, 0, 255,0)
+    ret, thresh = cv2.threshold(img_cv2, 0, 255, 0)
     cv2.imshow('thresh', thresh)
 
     g = cv2.getStructuringElement(cv2.MORPH_RECT, (9, 9))
-
 
     closed = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, g)
     cv2.imshow('MORPH_CLOSE', closed)
@@ -153,11 +151,10 @@ if __name__ == '__main__':
     opened = cv2.morphologyEx(closed, cv2.MORPH_OPEN, g)
     cv2.imshow('MORPH_OPEN', opened)
 
-
     closed = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, g)
     cv2.imshow('MORPH_CLOSE2', closed)
 
-  opened = cv2.morphologyEx(closed, cv2.MORPH_OPEN, g)
+    opened = cv2.morphologyEx(closed, cv2.MORPH_OPEN, g)
     cv2.imshow('MORPH_OPEN2', opened)
 
     backtorgb = cv2.cvtColor(img_cv2, cv2.COLOR_GRAY2RGB)
@@ -166,20 +163,18 @@ if __name__ == '__main__':
     # plt.imshow(img_cv2)
     # plt.show()
 
-    contours, hierarchy = cv2.findContours(opened,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(opened, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     # cnt = contours[3]
     # print(contours[0])
 
     contour = np.squeeze(contours[0])
 
-
     # attributes = {"id": 1, "name": "polygon", "valid": True}
     # centerline1 = Centerline(polygon,interpolation_distance=10)
 
-
     backtorgb = cv2.cvtColor(opened, cv2.COLOR_GRAY2RGB)
     cv2.imshow("Original", backtorgb)
-    t = cv2.drawContours((backtorgb), contours, -1, (0, 255, 0), 1)
+    t = cv2.drawContours(backtorgb, contours, -1, (0, 255, 0), 1)
     print(len(contours))
 
     lineThickness = 1
@@ -204,12 +199,9 @@ if __name__ == '__main__':
         for idx, coord in enumerate(coords[:-1]):
             # print(idx, )
             start = (int(coords[idx][0]), int(coords[idx][1]))
-            end   = (int(coords[idx + 1][0]), int(coords[idx + 1][1]))
+            end = (int(coords[idx + 1][0]), int(coords[idx + 1][1]))
             cv2.line(t, start, end, (0, 0, 255), lineThickness)
 
-    cv2.imshow('closed',t)
+    cv2.imshow('closed', t)
     if cv2.waitKey(0) == ord('q'):
         cv2.destroyAllWindows()
-
-
-

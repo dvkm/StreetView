@@ -23,7 +23,7 @@ from PIL import Image
 GPU_NUM = 0
 
 os.environ["MXNET_CUDNN_AUTOTUNE_DEFAULT"] = '0'
-class Seg():
+class Seg:
     def __init__(self, gpu_num=0):
 
         self.model = gluoncv.model_zoo.get_model('psp_resnet101_ade', pretrained=True, ctx=mx.gpu(GPU_NUM))

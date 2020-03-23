@@ -5,12 +5,13 @@ import shutil
 import time
 import multiprocessing as mp
 
-class Download_files():
+
+class Download_files:
     def download_from_list(self, list_files, saved_path, report_cnt=10):
         pro_id = os.getpid()
         start_time = time.time()
         total_cnt = len(list_files)
-        processed_cnt =  0
+        processed_cnt = 0
         while len(list_files) > 0:
             try:
                 file = list_files.pop(0)
@@ -25,7 +26,8 @@ class Download_files():
                 if processed_cnt % report_cnt == 0:
                     used_time = time.time() - start_time
                     cnt_hour = int(processed_cnt / (used_time + 1) * 3600)
-                    print(f"Processing speed: {processed_cnt} / {total_cnt}, Processing speed: {cnt_hour} item / hour,  pid: {pro_id}")
+                    print(
+                        f"Processing speed: {processed_cnt} / {total_cnt}, Processing speed: {cnt_hour} item / hour,  pid: {pro_id}")
             except Exception as e:
                 print("Error in download_from_list: ", file, e)
                 continue
@@ -40,13 +42,12 @@ class Download_files():
         pool.close()
         pool.join()
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     f = open(r'D:\Essex\jsons_from_panos\json_list.txt', 'r')
     saved_path = r'D:\Essex\t'
     list_files = ['G:\\My Drive\\Sidewalk_extraction\Essex\\panos\\' + line.replace('.json\n', '.json') for line in f]
     print("len of list:", len(list_files))
     download = Download_files()
-    download.download_from_list_mp(list_files,saved_path)
+    download.download_from_list_mp(list_files, saved_path)
     # for cnt, line in enumerate(f):
-

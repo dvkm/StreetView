@@ -10,27 +10,33 @@ from PIL import Image
 # from open3d import *
 from geographiclib.geodesic import Geodesic
 
-def lonlat2WebMercator( lon, lat):
+
+def lonlat2WebMercator(lon, lat):
     return transform(Proj(init='epsg:4326'), Proj(init='epsg:2824'), lon, lat)
 
 
 def WebMercator2lonlat(X, Y):
     return transform(Proj(init='epsg:2824'), Proj(init='epsg:4326'), X, Y)
 
+
 def get_bin(a):
     ba = bin(a)[2:]
     return "0" * (8 - len(ba)) + ba
+
 
 def getUInt16(arr, ind):
     a = arr[ind]
     b = arr[ind + 1]
     return int(get_bin(b) + get_bin(a), 2)
 
+
 def getFloat32(arr, ind):
     return bin_to_float("".join(get_bin(i) for i in arr[ind: ind + 4][::-1]))
 
-def bin_to_float( binary):
+
+def bin_to_float(binary):
     return struct.unpack("!f", struct.pack("!I", int(binary, 2)))[0]
+
 
 def parse(b64_string):
     # fix the 'inccorrect padding' error. The length of the string needs to be divisible by 4.
@@ -43,7 +49,8 @@ def parse(b64_string):
 
     return data
 
-def get_color_pallete( npimg, dataset='ade20k'):
+
+def get_color_pallete(npimg, dataset='ade20k'):
     # Huan changed the label 1 from 120, 120, 120 to 0, 0, 0
     adepallete = [
         0, 0, 0, 0, 0, 0, 180, 120, 120, 6, 230, 230, 80, 50, 50, 4, 200, 3, 120, 120, 80, 140, 140, 140, 204,
@@ -128,7 +135,8 @@ def get_color_pallete( npimg, dataset='ade20k'):
     out_img.putpalette(vocpallete)
     return out_img
 
-def getvocpallete( num_cls):
+
+def getvocpallete(num_cls):
     n = num_cls
     pallete = [0] * (n * 3)
     for j in range(0, n):
@@ -137,7 +145,7 @@ def getvocpallete( num_cls):
         pallete[j * 3 + 1] = 0
         pallete[j * 3 + 2] = 0
         i = 0
-        while (lab > 0):
+        while lab > 0:
             pallete[j * 3 + 0] |= (((lab >> 0) & 1) << (7 - i))
             pallete[j * 3 + 1] |= (((lab >> 1) & 1) << (7 - i))
             pallete[j * 3 + 2] |= (((lab >> 2) & 1) << (7 - i))
@@ -145,12 +153,12 @@ def getvocpallete( num_cls):
             lab >>= 3
     return pallete
 
-# get all the fillpath in the directory  include sub-directory
-def getfilenamefromfilepath(curDir, filename_list, ext=('tif', 'tiff','png')):
 
+# get all the fillpath in the directory  include sub-directory
+def getfilenamefromfilepath(curDir, filename_list, ext=('tif', 'tiff', 'png')):
     if os.path.isfile(curDir):
         if curDir.lower().endswith(ext):
-            file_path,file_ext = os.path.splitext(curDir)
+            file_path, file_ext = os.path.splitext(curDir)
             filename = os.path.basename(file_path)
             filename_list.append(filename)
     else:
@@ -169,4 +177,3 @@ def getfilenamefromfilepath(curDir, filename_list, ext=('tif', 'tiff','png')):
                     file_path, file_ext = os.path.splitext(dir_file_path)
                     filename = os.path.basename(file_path)
                     filename_list.append(filename)
-

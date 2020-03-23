@@ -7,11 +7,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import glob
 import json
-import  sqlite3
+import sqlite3
+
 
 class MyTestCase(unittest.TestCase):
-    gpano =  object
+    gpano = object
     gsv = object
+
     def setUp(self) -> None:
         self.gpano = GPano.GPano()
         self.gsv = GPano.GSV_depthmap()
@@ -44,7 +46,6 @@ class MyTestCase(unittest.TestCase):
         GPano.GSV_depthmap.seg_to_landcover2(GPano.GSV_depthmap(), seglist, saved_path=saved_path, fov=math.radians(90))
         print("seg_to landcover finished.")
 
-
     # def test_colrow_to_spherial(self):
     #     theta, phi = self.gpano.colrow_to_spherial(0, 0, 1024, 768)
     #     self.assertEqual((round(0.4876162427151, 9), round(-pi/4, 9)), (round(theta, 9), round(phi, 9)))
@@ -59,7 +60,6 @@ class MyTestCase(unittest.TestCase):
     #     print(self.gpano.getGSV_url_frm_panoId(os.path.basename(file)[:-4]))
     #     self.gpano.clip_pano(img, radians(0), pi/2, 1024, 768, fov=90)
 
-
     # def test_getPanoJPGfrmPanoId(self):
     #     all_files = glob.glob(r'O:\OneDrive_NJIT\OneDrive - NJIT\Research\sidewalk\Essex_test\json\*.json')
     #     saved_path = r'O:\OneDrive_NJIT\OneDrive - NJIT\Research\sidewalk\Essex_test\panos'
@@ -67,8 +67,6 @@ class MyTestCase(unittest.TestCase):
     #         panoId = os.path.basename(file)[:-5]
     #         GPano.GPano.getPanoJPGfrmPanoId(GPano.GPano(), panoId, saved_path=saved_path, zoom=5)
     #         print("Finished: ", panoId)
-
-
 
     # def test_saveDepthMap(self):
     #     saved_path = r'D:\OneDrive_NJIT\OneDrive - NJIT\Research\sidewalk\Essex_test\depthmap2'
@@ -84,8 +82,7 @@ class MyTestCase(unittest.TestCase):
     #             newname = os.path.join(saved_path, basename)
     #             depthMap = GPano.GSV_depthmap.getDepthmapfrmJson(GPano.GSV_depthmap(), jdata)
     #             GPano.GSV_depthmap.saveDepthmapImage(GPano.GSV_depthmap(), depthMap, newname)
-                # GPano.GPano.getPanoZoom0frmID(GPano.GPano(), basename.replace('.tif', ''), saved_path)
-
+    # GPano.GPano.getPanoZoom0frmID(GPano.GPano(), basename.replace('.tif', ''), saved_path)
 
     # def test_get_color_pallete(self):
     #     path = r'O:\OneDrive_NJIT\OneDrive - NJIT\Research\sidewalk\Essex_test\landcover\+pitch_of_thumb\*.png'
@@ -98,7 +95,6 @@ class MyTestCase(unittest.TestCase):
     #         basename = os.path.basename(file).replace('.png', '.png')
     #         newfilename = os.path.join(saved_path, basename)
     #         colored.save(newfilename)
-
 
     # def test_seg_to_pointcloud(self):
     #     file = r'O:\OneDrive_NJIT\OneDrive - NJIT\Research\sidewalk\streetview_images\xmrpSi0qZ9UQUZKxGWMIEw_-74.2180614_40.7864947_0_53.png'
@@ -260,7 +256,6 @@ class MyTestCase(unittest.TestCase):
     #     #self.assertEqual(True, sidewalks_sph)
     #
 
-
     # def test_seg_to_pointcloud(self):
     #     file = r'O:\OneDrive_NJIT\OneDrive - NJIT\Research\sidewalk\streetview_images\xmrpSi0qZ9UQUZKxGWMIEw_-74.2180614_40.7864947_0_53.png'
     #     file = r'O:\OneDrive_NJIT\OneDrive - NJIT\Research\sidewalk\Essex_test\LeYAIu-xGFNEJQwOZAl3Iw_-74.209119_40.792425_0_329.16.png'
@@ -284,7 +279,6 @@ class MyTestCase(unittest.TestCase):
     #     saved_path = r'O:\OneDrive_NJIT\OneDrive - NJIT\Research\sidewalk\Essex_test\test\pp'
     #     GPano.GSV_depthmap.seg_to_pointcloud(GPano.GSV_depthmap(), seglist, saved_path=saved_path, fov=90)
     #     print("Finished.")
-
 
     """
     def test_getNextJson(self):
@@ -362,6 +356,7 @@ class MyTestCase(unittest.TestCase):
         # plt.scatter(lons, lats)
         # plt.show()
         """
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -10,9 +10,11 @@ import math
 import os
 import glob
 
-class tree_detection():
 
-    def __init__(self, seg_file_path, tree_label=4, clip_up=0.4, kernel_morph=8, kernel_list=[10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 100, 120, 150, 180, 200]):
+class tree_detection:
+
+    def __init__(self, seg_file_path, tree_label=4, clip_up=0.4, kernel_morph=8,
+                 kernel_list=[10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 100, 120, 150, 180, 200]):
 
         try:
             self.seg_file_path = seg_file_path
@@ -25,7 +27,8 @@ class tree_detection():
             self.seg_cv2 = self.seg_cv2[int(self.seg_height * clip_up):, :]  # remove the top 1/3 image.
 
             self.gsv_folder = r'K:\OneDrive_NJIT\OneDrive - NJIT\Research\Trees\datasets\Philly\tree_jpg'
-            self.img_gsv_filename = os.path.join(self.gsv_folder, os.path.basename(seg_file_path.replace('.png', '.jpg')))
+            self.img_gsv_filename = os.path.join(self.gsv_folder,
+                                                 os.path.basename(seg_file_path.replace('.png', '.jpg')))
             self.img_gsv_cv2 = cv2.imread(self.img_gsv_filename, cv2.IMREAD_UNCHANGED)
             self.gsv_height, self.gsv_width, self.gsv_channels = self.img_gsv_cv2.shape
             # self.img_gsv_cv2 = self.img_gsv_cv2[int(self.seg_height * clip_up):, :]
@@ -44,7 +47,7 @@ class tree_detection():
             self.sobel_v = cv2.Sobel(self.opened, cv2.CV_64F, 1, 0, ksize=3)
             self.sobel_v_abs = np.abs(self.sobel_v)
             self.sobel_v_abs = np.where(self.sobel_v_abs > 2.0, self.sobel_v_abs, 0)
-            self.sobel_v_abs[:, :-2] = 1 # set the edge to sobel_v
+            self.sobel_v_abs[:, :-2] = 1  # set the edge to sobel_v
             self.sobel_v_abs[:, 0:3] = 1  # set the edge to sobel_v
 
             self.sobel_h = cv2.Sobel(self.opened, cv2.CV_64F, 0, 1, ksize=3)
@@ -89,14 +92,14 @@ class tree_detection():
             #         print(threshold)
             if (row > kernel_h) and (col > kernel_w / 2):
                 if (row < self.seg_height) and (col < (self.seg_width - kernel_w / 2)):
-                    conved = self.sobel_v_abs[int(row - kernel_h):int(row), int(col - kernel_w / 2):int(col + kernel_w / 2)]
+                    conved = self.sobel_v_abs[int(row - kernel_h):int(row),
+                             int(col - kernel_w / 2):int(col + kernel_w / 2)]
                     conved = np.where(conved > 0, 1, 0)
                     sum_conv = np.sum(conved) / 2
 
                     if sum_conv > threshold:
                         if self.sobel_h[row, col] < -1:
                             return True
-
 
         return False
 
@@ -135,7 +138,8 @@ class tree_detection():
                 roots = []
                 print("Processing contours #:", cont_num)
 
-                peaks_idx, dic = scipy.signal.find_peaks(cont[:, 1], prominence=prominence, width=width, distance=distance,
+                peaks_idx, dic = scipy.signal.find_peaks(cont[:, 1], prominence=prominence, width=width,
+                                                         distance=distance,
                                                          plateau_size=plateau_size)
                 # print("cont:", cont)
                 # peaks_idx, dic = scipy.signal.find_peaks(cont[:, 1], prominence=10, width=10, distance=20,
@@ -171,8 +175,6 @@ class tree_detection():
                 #     ax.scatter(peaks[:, 0], peaks[:, 1] , color='red', s=50)
                 # plt.show()
 
-
-
                 for idx, r in enumerate(DBH_row):
 
                     # print('\nr:', r)
@@ -184,7 +186,6 @@ class tree_detection():
 
                     t = [x[0] for x in DBH_idx]
 
-
                     DBH_x = self.contoursNONE[cont_num][:, 0][t]
 
                     # remove the adjacent pixels
@@ -194,12 +195,10 @@ class tree_detection():
                             temp.append(DBH_x[x])
                     DBH_x = temp
 
-
                     # print('DBH_x: ', DBH_x)
                     #         print('width: ', abs(DBH_x[1] - DBH_x[0]))
                     w = math.tan(math.radians(40)) * prominences[idx] * prom_ratio
                     #         print("w:", w)
-
 
                     if abs(DBH_x[0] - roots[idx, 0]) < 80:
                         roots_all.append(peaks[idx])
@@ -232,8 +231,8 @@ class tree_detection():
 
         return roots_all, widths
 
-def test_getRoots():
 
+def test_getRoots():
     img_file0 = r'56666_-75.135652_39.978263_20_102'
     img_file0 = r'56615_-75.135871_39.977264_20_148'
     img_file0 = r'56507_-75.142394_40.007453_20_134'
@@ -252,7 +251,6 @@ def test_getRoots():
     img_file0 = r'55931_-75.134294_40.023345_20_128'
     img_file0 = '55835_-75.11125_40.027203_20_141'
 
-
     img_file = f'K:\\OneDrive_NJIT\\OneDrive - NJIT\\Research\\Trees\\datasets\\Philly\\Segmented_PSP\\{img_file0}.png'
 
     folder = r'K:\OneDrive_NJIT\OneDrive - NJIT\Research\Trees\datasets\Philly\Segmented_PSP\*.png'
@@ -262,7 +260,6 @@ def test_getRoots():
         tree_detect = tree_detection(seg_file_path=file)
         roots_all, widths = tree_detect.getRoots()
         print(roots_all, widths)
-
 
     # plt.imshow(tree_detect.opened)
     # plt.scatter(roots_all[:, 0], roots_all[:, 1])

@@ -12,8 +12,7 @@ attributes = {"id": 1, "name": "polygon", "valid": True}
 centerline = Centerline(polygon, **attributes)
 print(centerline.id == 1)
 
-x  = math.log2(3, 2)
-
+x = math.log2(3, 2)
 
 """
 def nothing(x):
@@ -53,7 +52,3 @@ while (1):
     else:
         cv2.imshow('MORPH_CLOSE', dilation)
 """
-
-
-
-
